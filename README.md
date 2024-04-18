@@ -7,7 +7,7 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 ### Executando os Endpoints
 
 - **POST** - http://localhost:8080/api/awards/movies
-    - Este endpoint lê o arquivo CSV fornecido e salva os dados na base de dados.
+    - Este endpoint lê o arquivo CSV fornecido registrando apenas os títulos que não existem e os salvando na base de dados. De forma que caso queira inserir apenas 1 registro, basta ter um CSV com apenas 1 linha.
 
 - **GET** - http://localhost:8080/api/awards/movies/1
     - Este endpoint retorna os detalhes de um filme específico com o ID fornecido.
@@ -68,17 +68,17 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 
 1. Após abrir o projeto no IntelliJ, aguarde a indexação e a sincronização das dependências.
 
-2. No canto superior direito da tela, localise uma a área Open Run/Debug configurations e selecione Edit Configurations.
+2. No canto superior direito da tela, localise uma a área `Open Run/Debug configurations` e selecione `Edit Configurations`.
 
-3. Ao abrir a tela, no canto superior esquerdo, clique no ícone +.
+3. Ao abrir a tela, no canto superior esquerdo, clique no ícone `+`.
 
-4. Em Add/New Configuration, selecione Application.
+4. Em `Add/New Configuration`, selecione `Application`.
 
-5. No campo Name dê um nome de sua preferência, logo mais abaixo no campo Main class, selecione a classe principal que no caso é a classe App.class
+5. No campo Name dê um nome de sua preferência, logo mais abaixo no campo `Main class`, selecione a classe principal que no caso é a classe `App.class`
 
-6. logo após cliquem em Apply e depois OK
+6. logo após cliquem em `Apply` e depois `OK`
 
-7. Para rodar a aplicação basta clicar no ícone play em verde
+7. Para rodar a aplicação basta clicar no ícone `Play` em verde
 
 ### Executando os Testes com Mockito
 
@@ -92,6 +92,10 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 
 ### Collection Postman
 
-Você pode encontrar dentro da pasta src/test/resources o arquivo TEXTIT.postman_collection.json para facilitar os testes do endpoints. 
+Você pode encontrar dentro da pasta src/test/resources o arquivo `TEXTIT.postman_collection.json` para facilitar os testes do endpoints. 
+
+### Observações
+Para este projeto foi utilizado o `Java 11 - openjdk 19.0.2`
+O servidor de aplicação onfigurado foi o `tomcat 7 (tomcat7-maven-plugin)`
 
 Com estas instruções, você estará pronto para usar e contribuir para o projeto da API Restful Golden Raspberry Awards!

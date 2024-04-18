@@ -6,8 +6,10 @@ import br.texoit.application.dto.response.SuccessResponse;
 import br.texoit.application.enuns.MessageSystem;
 import br.texoit.application.service.FilesService;
 import br.texoit.application.service.MoviesService;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +22,20 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/awards")
+@RequiredArgsConstructor
 public class MoviesController {
 
-    @Autowired
-    private FilesService filesService;
-
-    @Autowired
-    private MoviesService moviesService;
+    private final FilesService filesService;
+    private final MoviesService moviesService;
 
     @PostMapping(value="/movies",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Filmes registrados com sucesso"),
+            @ApiResponse(code = 400, message = "Arquivo de formato inválido"),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
     public ResponseEntity<SuccessResponse> register(@RequestParam("file") MultipartFile file) {
 
         if(!filesService.checkDocumentType(file))
@@ -58,6 +63,11 @@ public class MoviesController {
     @GetMapping(value="/movies/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Filme recuperado com sucesso"),
+            @ApiResponse(code = 404, message = "Filme não encontrado"),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
     public ResponseEntity<SuccessResponse> getMovie(@PathVariable long id) {
 
         ServiceResponse successDetails = moviesService.getMovies(id);
@@ -77,6 +87,11 @@ public class MoviesController {
     @PutMapping(value="/movies/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Filme atualizado com sucesso"),
+            @ApiResponse(code = 404, message = "Filme não encontrado"),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
     public ResponseEntity<SuccessResponse> refreshMovie(@PathVariable long id,
                                                         @RequestBody MovieDTO movie) {
 
@@ -97,6 +112,11 @@ public class MoviesController {
     @DeleteMapping(value="/movies/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Filme deletado com sucesso"),
+            @ApiResponse(code = 404, message = "Filme não encontrado"),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
     public ResponseEntity<SuccessResponse> deleteMovie(@PathVariable long id) {
 
         ServiceResponse successDetails = moviesService.deleteMovie(id);
@@ -116,6 +136,10 @@ public class MoviesController {
     @GetMapping(value="/movies/ranking",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Intervalo de prêmios recuperado com sucesso"),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
     public ResponseEntity<Object> receive() {
 
         ServiceResponse successDetails = moviesService.prizeRange();

@@ -2,6 +2,7 @@ package br.texoit.application.service;
 
 import br.texoit.application.dto.request.MovieDTO;
 import br.texoit.application.enuns.MessageSystem;
+import br.texoit.application.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -14,9 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -45,10 +44,11 @@ public class FilesService {
 
     public List<MovieDTO> convertCSV(MultipartFile file) throws Exception {
         List<MovieDTO> movies = new ArrayList<>();
+        Set<String> movieTitles = new HashSet<>();
 
         try {
             if (file == null) {
-                throw new IllegalArgumentException(MessageSystem.ERROR_FILE_CSV_NULL.value());
+                throw new ResourceNotFoundException(MessageSystem.ERROR_FILE_CSV_NULL.value());
             }
 
             if (file.isEmpty()) {
@@ -59,12 +59,17 @@ public class FilesService {
                 CSVParser parser = new CSVParser(fileReader, CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader());
 
                 parser.stream().forEach(register -> {
-                    movies.add(MovieDTO.builder()
-                            .year(register.get(0))
-                            .title(register.get(1))
-                            .studios(register.get(2))
-                            .producer(register.get(3))
-                            .winner(register.get(4)).build());
+                    String title = register.get(1);
+
+                    if (!movieTitles.contains(title)) {
+                        movies.add(MovieDTO.builder()
+                                .year(register.get(0))
+                                .title(register.get(1))
+                                .studios(register.get(2))
+                                .producer(register.get(3))
+                                .winner(register.get(4)).build());
+                        movieTitles.add(title);
+                    }
                 });
             } catch (IOException e) {
                 e.printStackTrace();

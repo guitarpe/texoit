@@ -5,11 +5,11 @@ import br.texoit.application.dto.response.ProducerInfoDTO;
 import br.texoit.application.dto.response.ProducersDTO;
 import br.texoit.application.dto.response.ServiceResponse;
 import br.texoit.application.enuns.MessageSystem;
+import br.texoit.application.exception.ResourceNotFoundException;
 import br.texoit.application.model.Movies;
 import br.texoit.application.repository.IMovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,11 +43,11 @@ public class MoviesService {
 
             return ServiceResponse.builder()
                     .status(true)
-                    .message(MessageSystem.SUCCESS.value())
+                    .message(MessageSystem.SUCCESS_REGISTER_MOVIES.value())
                     .data(null).build();
 
         }catch (Exception ex){
-            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + Strings.LINE_SEPARATOR+ ex.getMessage();
+            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + " - "+ ex.getMessage();
             return ServiceResponse.builder()
                     .status(false)
                     .message(erroMsg)
@@ -67,11 +67,11 @@ public class MoviesService {
 
             return ServiceResponse.builder()
                     .status(true)
-                    .message(MessageSystem.SUCCESS.value())
+                    .message(MessageSystem.SUCCESS_RETRIEVE_MOVIES.value())
                     .data(movie.get()).build();
 
         }catch (Exception ex){
-            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + Strings.LINE_SEPARATOR+ ex.getMessage();
+            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + " - "+ ex.getMessage();
             return ServiceResponse.builder()
                     .status(false)
                     .message(erroMsg)
@@ -84,7 +84,7 @@ public class MoviesService {
             Optional<Movies> movieOptional = movieRepository.findById(id);
 
             if (!movieOptional.isPresent())
-                throw new IllegalArgumentException(MessageSystem.ERROR_EMPTY_RESULTS.value());
+                throw new ResourceNotFoundException(MessageSystem.ERROR_EMPTY_RESULTS.value());
 
             Movies movie = movieOptional.get();
 
@@ -103,11 +103,11 @@ public class MoviesService {
 
             return ServiceResponse.builder()
                     .status(true)
-                    .message(MessageSystem.SUCCESS.value())
+                    .message(MessageSystem.SUCCESS_UPDATED_MOVIES.value())
                     .data(null).build();
 
         }catch (Exception ex){
-            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + Strings.LINE_SEPARATOR+ ex.getMessage();
+            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + " - "+ ex.getMessage();
             return ServiceResponse.builder()
                     .status(false)
                     .message(erroMsg)
@@ -120,17 +120,17 @@ public class MoviesService {
             Optional<Movies> movie = movieRepository.findById(id);
 
             if (!movie.isPresent())
-                throw new IllegalArgumentException(MessageSystem.ERROR_EMPTY_RESULTS.value());
+                throw new ResourceNotFoundException(MessageSystem.ERROR_EMPTY_RESULTS.value());
 
             movieRepository.delete(movie.get());
 
             return ServiceResponse.builder()
                     .status(true)
-                    .message(MessageSystem.SUCCESS.value())
+                    .message(MessageSystem.SUCCESS_DELETED_MOVIES.value())
                     .data(null).build();
 
         }catch (Exception ex){
-            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + Strings.LINE_SEPARATOR+ ex.getMessage();
+            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + " - "+ ex.getMessage();
             return ServiceResponse.builder()
                     .status(false)
                     .message(erroMsg)
@@ -144,7 +144,7 @@ public class MoviesService {
             List<ProducerInfoDTO> producers = new ArrayList<>();
 
             if (movies.isEmpty())
-                throw new IllegalArgumentException(MessageSystem.ERROR_EMPTY_RESULTS.value());
+                throw new ResourceNotFoundException(MessageSystem.ERROR_EMPTY_RESULTS.value());
 
             movies.forEach(movie ->{
                 int prevWin = Integer.parseInt(movie.getYear());
@@ -173,7 +173,7 @@ public class MoviesService {
                             .max(Arrays.asList(maxInterval)).build()).build();
 
         }catch (Exception ex){
-            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + Strings.LINE_SEPARATOR+ ex.getMessage();
+            String erroMsg = MessageSystem.ERROR_FUNCTIONAL.value() + " - "+ ex.getMessage();
             return ServiceResponse.builder()
                     .status(false)
                     .message(erroMsg)
