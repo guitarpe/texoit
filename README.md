@@ -1,3 +1,4 @@
+#Candidato Flavio Santos Sousa
 # API de Indicados e Vencedores do Golden Raspberry Awards
 
 Esta API Restful possibilita a leitura da lista de indicados e vencedores da categoria Pior Filme do Golden Raspberry Awards através de um arquivo CSV, salvando os dados na base de dados. Além disso, ela permite obter o produtor com o maior intervalo entre dois prêmios consecutivos e o produtor que obteve dois prêmios mais rapidamente.
