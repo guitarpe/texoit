@@ -90,4 +90,8 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 
 4. Aguarde até que os testes sejam executados e verifique os resultados na saída da execução.
 
-Com estas instruções, você estará pronto para usar e contribuir para o projeto da API Restful Golden Raspberry Awards!# texoit
+### Collection Postman
+
+Você pode encontrar dentro da pasta src/test/resources o arquivo TEXTIT.postman_collection.json para facilitar os testes do endpoints. 
+
+Com estas instruções, você estará pronto para usar e contribuir para o projeto da API Restful Golden Raspberry Awards!
