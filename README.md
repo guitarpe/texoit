@@ -92,7 +92,7 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 
 ### Collection Postman
 
-Você pode encontrar dentro da pasta src/test/resources o arquivo `TEXTIT.postman_collection.json` para facilitar os testes do endpoints. 
+Você pode encontrar dentro da pasta src/test/resources o arquivo `TEXTOT.postman_collection.json` para facilitar os testes do endpoints. 
 
 ### Observações
 Para este projeto foi utilizado o `Java 11 - openjdk 19.0.2`
