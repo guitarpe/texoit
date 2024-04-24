@@ -11,8 +11,14 @@ import br.texoit.application.repository.IMovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -22,6 +28,28 @@ import java.util.*;
 public class MoviesService {
 
     private final IMovieRepository movieRepository;
+    private final FilesService filesService;
+
+    @PostConstruct
+    public void init() {
+        log.info("Início da Aplicação");
+        log.info("Início da importação");
+        try {
+            MultipartFile file = getFileMoviesCSV();
+            List<MovieDTO> movies = filesService.fileToEntity(file);
+            saveMovies(movies);
+            log.info("Registros importados: {}", movieRepository.count());
+        } catch (IOException e) {
+            log.error("Erro durante a importação: {}", e.getMessage());
+        }
+        log.info("Final da importação");
+    }
+
+    private static MultipartFile getFileMoviesCSV() throws IOException {
+        File file = new File("src/test/resources/test-movies.csv");
+        FileInputStream input = new FileInputStream(file);
+        return new MockMultipartFile("file", file.getName(), "text/csv", input);
+    }
 
     public ServiceResponse saveMovies(List<MovieDTO> movies) {
         try {

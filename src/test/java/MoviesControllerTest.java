@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -160,4 +160,29 @@ class MoviesControllerTest {
         assertEquals(null, successDetails.getData());
     }
 
+    @Test
+    public void testValidResultReceive(){
+
+        ServiceResponse successDetails = moviesService.prizeRange();
+        ProducersDTO result = (ProducersDTO) successDetails.getData();
+
+        assertNotNull(result.getMin());
+        assertFalse(result.getMin().isEmpty());
+        assertNotNull(result.getMax());
+        assertFalse(result.getMax().isEmpty());
+
+        assertTrue(result.getMin().stream().allMatch(min ->
+                min.getProducer() != null &&
+                        min.getInterval() > 0 &&
+                        min.getPreviousWin() > 0 &&
+                        min.getFollowingWin() > 0
+        ));
+
+        assertTrue(result.getMax().stream().allMatch(max ->
+                max.getProducer() != null &&
+                        max.getInterval() > 0 &&
+                        max.getPreviousWin() > 0 &&
+                        max.getFollowingWin() > 0
+        ));
+    }
 }
