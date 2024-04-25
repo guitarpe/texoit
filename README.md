@@ -5,13 +5,18 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 
 ## Instruções de Uso
 
-### Executando os Endpoints
+### 1 - Iniciando a aplicação
+Assim que a aplicação é iniciada, o serviço lê o arquivo .CSV localizado na pasta **src/test/resources/test-movies.csv** e importa todos os registros para o banco de dados. Mesmo asim, o endpoint de importação ainda está disponível para ser utilizado, caso o usuário queira importar novos registros.
+
+### 2 - Executando os Endpoints
 
 - **POST** - http://localhost:8080/api/awards/movies
     - Este endpoint lê o arquivo CSV fornecido registrando apenas os títulos que não existem e os salvando na base de dados. De forma que caso queira inserir apenas 1 registro, basta ter um CSV com apenas 1 linha.
+  
 
 - **GET** - http://localhost:8080/api/awards/movies/1
     - Este endpoint retorna os detalhes de um filme específico com o ID fornecido.
+  
 
 - **PUT** - http://localhost:8080/api/awards/movies/1
     - Este endpoint atualiza os detalhes de um filme específico com o ID fornecido. O corpo da requisição deve ser no formato:
@@ -27,6 +32,7 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 
 - **DELETE** - http://localhost:8080/api/awards/movies/1
     - Este endpoint exclui um filme específico com o ID fornecido.
+
 
 - **GET** - http://localhost:8080/api/awards/movies/ranking
     - Este endpoint retorna um ranking dos produtores, trazendo o produtor com o menor e maior intervalo entre dois prêmios consecutivos. O retorno será no formato:
@@ -51,7 +57,7 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
       }
       ```
 
-### Configurando o Projeto no IntelliJ
+### 3 - Configurando o Projeto no IntelliJ
 
 1. Clone o projeto do repositório Git localizado em https://github.com/guitarpe/texoit.git.
 
@@ -65,7 +71,7 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 
 6. Aguarde o IntelliJ importar o projeto.
 
-### Executando o Projeto
+### 4 - Executando o Projeto
 
 1. Após abrir o projeto no IntelliJ, aguarde a indexação e a sincronização das dependências.
 
@@ -81,7 +87,7 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 
 7. Para rodar a aplicação basta clicar no ícone `Play` em verde
 
-### Executando os Testes com Mockito
+### 5 - Executando os Testes com Mockito
 
 1. Localize a classe de teste `MoviesControllerTest` no projeto.
 
@@ -91,11 +97,13 @@ Esta API Restful possibilita a leitura da lista de indicados e vencedores da cat
 
 4. Aguarde até que os testes sejam executados e verifique os resultados na saída da execução.
 
-### Collection Postman
+5. Há um teste para cada endpoint disponível e também um que valida a informação obtida no resultado do endpoint que retorna o intervalo entra os produtores premiados, de acordo com o último endpoint no item 1
+
+### 6 - Collection Postman
 
 Você pode encontrar dentro da pasta src/test/resources o arquivo `TEXTOT.postman_collection.json` para facilitar os testes do endpoints. 
 
-### Observações
+## Observações
 Para este projeto foi utilizado o `Java 11 - openjdk 19.0.2`
 O servidor de aplicação onfigurado foi o `tomcat 7 (tomcat7-maven-plugin)`
 
